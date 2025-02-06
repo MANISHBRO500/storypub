@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publish Story</title>
+    <link rel="stylesheet" href="publisher.css">
+</head>
+<body>
+    <nav>
+        <a class="logo" href="#">Story Publisher</a>
+        <ul>
+            <li><a href="frontend\viewer.html">View Stories</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h2>Publish Your Story</h2>
+        <form id="story-form">
+            <input type="text" id="title" placeholder="Story Title" required>
+            <textarea id="content" placeholder="Write your story here..." required></textarea>
+            <button type="submit">Publish</button>
+        </form>
+    </div>
+
+    <script src="publisher.js"></script>
+</body>
+</html>
