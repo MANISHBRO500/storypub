@@ -7,7 +7,6 @@ app.use(express.json());
 app.use(cors());
 
 mongoose.connect("mongodb+srv://manishbehera1400:Mpqhi69EVz9wQsjt@storypub.wbxjr.mongodb.net/", {
-    useNewUrlParser: true,
     useUnifiedTopology: true,
 });
 
