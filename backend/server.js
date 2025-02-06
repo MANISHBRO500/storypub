@@ -1,14 +1,17 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+require("dotenv").config(); // Load environment variables
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect("mongodb+srv://manishbehera1400:Mpqhi69EVz9wQsjt@storypub.wbxjr.mongodb.net/", {
+mongoose.connect(process.env.MONGO_URI, {
     useUnifiedTopology: true,
-});
+})
+.then(() => console.log("Connected to MongoDB"))
+.catch(err => console.error("MongoDB connection error:", err));
 
 const storySchema = new mongoose.Schema({
     title: String,
@@ -25,7 +28,7 @@ app.post("/api/stories", async (req, res) => {
         await newStory.save();
         res.status(201).json(newStory);
     } catch (error) {
-        res.status(500).json({ error: "Error saving story" });
+        res.status(500).json({ error: error.message });
     }
 });
 
@@ -34,8 +37,9 @@ app.get("/api/stories", async (req, res) => {
         const stories = await Story.find().sort({ createdAt: -1 });
         res.json(stories);
     } catch (error) {
-        res.status(500).json({ error: "Error fetching stories" });
+        res.status(500).json({ error: error.message });
     }
 });
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
