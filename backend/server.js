@@ -1,45 +1,68 @@
 const express = require("express");
+
 const mongoose = require("mongoose");
+
 const cors = require("cors");
-require("dotenv").config(); // Load environment variables
 
 const app = express();
+
 app.use(express.json());
+
 app.use(cors());
 
-mongoose.connect(process.env.MONGO_URI, {
-    useUnifiedTopology: true,
-})
-.then(() => console.log("Connected to MongoDB"))
-.catch(err => console.error("MongoDB connection error:", err));
+mongoose.connect("mongodb+srv://manishbehera1400:Mpqhi69EVz9wQsjt@storypub.wbxjr.mongodb.net/", {
+
+useUnifiedTopology: true,
+
+});
 
 const storySchema = new mongoose.Schema({
-    title: String,
-    content: String,
-    createdAt: { type: Date, default: Date.now }
+
+title: String,
+
+content: String,
+
+createdAt: { type: Date, default: Date.now }
+
 });
 
 const Story = mongoose.model("Story", storySchema);
 
 app.post("/api/stories", async (req, res) => {
-    try {
-        const { title, content } = req.body;
-        const newStory = new Story({ title, content });
-        await newStory.save();
-        res.status(201).json(newStory);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+
+try {
+
+    const { title, content } = req.body;
+
+    const newStory = new Story({ title, content });
+
+    await newStory.save();
+
+    res.status(201).json(newStory);
+
+} catch (error) {
+
+    res.status(500).json({ error: "Error saving story" });
+
+}
+
 });
 
 app.get("/api/stories", async (req, res) => {
-    try {
-        const stories = await Story.find().sort({ createdAt: -1 });
-        res.json(stories);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+
+try {
+
+    const stories = await Story.find().sort({ createdAt: -1 });
+
+    res.json(stories);
+
+} catch (error) {
+
+    res.status(500).json({ error: "Error fetching stories" });
+
+}
+
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(5000, () => console.log("Server running on port 5000"));
+
